@@ -2,6 +2,9 @@ import productos.ListaProductos;
 import productos.NodoProducto;
 import productos.Producto;
 
+import clientes.Cliente;
+import clientes.ColaClientes;
+
 import java.util.Scanner;
 
 public class Main {
