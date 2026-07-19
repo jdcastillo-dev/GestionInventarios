@@ -13,7 +13,6 @@ public class NodoArbolProducto {
     }
 
     //Getter
-
     public Producto getProducto() {
         return producto;
     }
@@ -27,8 +26,6 @@ public class NodoArbolProducto {
     }
 
     //Setter
-
-
     public void setProducto(Producto producto) {
         this.producto = producto;
     }

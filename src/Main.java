@@ -1,161 +1,206 @@
-import productos.ListaProductos;
-import productos.NodoProducto;
-import productos.Producto;
-
 import clientes.Cliente;
-import clientes.ColaClientes;
+import productos.Producto;
+import tienda.Tienda;
 
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        menu();
-    }
-
-    public static void menu() {
 
         Scanner scanner = new Scanner(System.in);
-        ListaProductos listaProductos = new ListaProductos();
+        Tienda tienda = new Tienda();
 
         int opcion;
 
         do {
-            // Menu de opciones.
-            System.out.println("----- MENU GESTION DE INVENTARIO -----");
-            System.out.println("1. Insertar producto al inicio");
-            System.out.println("2. Insertar producto al final");
-            System.out.println("3. Mostrar productos");
-            System.out.println("4. Buscar producto");
-            System.out.println("5. Modificar producto");
-            System.out.println("6. Eliminar producto");
-            System.out.println("7. Agregar imagen a producto");
-            System.out.println("8. Reporte de costos");
-            System.out.println("9. Salir");
-            System.out.print("Digite una opcion: ");
+            mostrarMenu();
 
+            System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
 
-                // Insertar un producto al inicio de la lista.
                 case 1:
-                    Producto productoInicio = crearProducto(scanner);
-                    listaProductos.insertarInicio(productoInicio);
-                    System.out.println("Producto insertado al inicio correctamente.\n");
+                    agregarProducto(scanner, tienda);
                     break;
 
-                // Insertar un producto al final de la lista.
                 case 2:
-                    Producto productoFinal = crearProducto(scanner);
-                    listaProductos.insertarFinal(productoFinal);
-                    System.out.println("Producto insertado al final correctamente.\n");
+                    buscarProducto(scanner, tienda);
                     break;
 
-                // Muestra todos los productos almacenados.
                 case 3:
-                    listaProductos.mostrar();
+                    tienda.mostrarInventario();
                     break;
 
-                // Busca un producto por nombre.
                 case 4:
-                    System.out.print("Digite el nombre del producto a buscar: ");
-                    String nombreBuscar = scanner.nextLine();
-
-                    NodoProducto nodoBuscado = listaProductos.buscar(nombreBuscar);
-
-                    if (nodoBuscado != null) {
-                        System.out.println(nodoBuscado);
-                    }
+                    agregarCliente(scanner, tienda);
                     break;
 
-                // Modifica la informacion de un producto existente.
                 case 5:
-                    System.out.print("Digite el nombre del producto a modificar: ");
-                    String nombreModificar = scanner.nextLine();
-
-                    System.out.print("Digite el nuevo precio: ");
-                    double nuevoPrecio = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    System.out.print("Digite la nueva categoria: ");
-                    String nuevaCategoria = scanner.nextLine();
-
-                    System.out.print("Digite la nueva fecha de vencimiento: ");
-                    String nuevaFechaVencimiento = scanner.nextLine();
-
-                    System.out.print("Digite la nueva cantidad: ");
-                    int nuevaCantidad = scanner.nextInt();
-                    scanner.nextLine();
-
-                    listaProductos.modificarProducto(nombreModificar, nuevoPrecio,
-                            nuevaCategoria, nuevaFechaVencimiento, nuevaCantidad);
+                    agregarProductoAlCarrito(scanner, tienda);
                     break;
 
-                // Elimina un producto en la lista.
                 case 6:
-                    System.out.print("Digite el nombre del producto a eliminar: ");
-                    String nombreEliminar = scanner.nextLine();
-
-                    NodoProducto nodoEliminado = listaProductos.eliminar(nombreEliminar);
-
-                    if (nodoEliminado != null) {
-                        System.out.println("Producto eliminado correctamente.\n");
-                    }
+                    tienda.mostrarClientes();
                     break;
 
-                // Agrega una imagen a un producto exstente.
                 case 7:
-                    System.out.print("Digite el nombre del producto: ");
-                    String nombreImagen = scanner.nextLine();
-
-                    System.out.print("Digite la ruta de la imagen: ");
-                    String rutaImagen = scanner.nextLine();
-
-                    listaProductos.agregarImagen(nombreImagen, rutaImagen);
+                    tienda.atenderCliente();
                     break;
 
-                // Genera el reporte de costos de los productos.
                 case 8:
-                    listaProductos.reporteCostos();
+                    System.out.println("\nSaliendo del sistema...");
                     break;
 
-                // Finaliza la ejecución del programa.
-                case 9:
-                    System.out.println("Saliendo del programa...");
-                    break;
-
-                // Opción inválida.
                 default:
-                    System.out.println("Opcion invalida.\n");
-                    break;
+                    System.out.println("\nOpción inválida.\n");
             }
 
-        } while (opcion != 9);
+        } while (opcion != 8);
+
+        scanner.close();
     }
 
-    // Solicita los datos de un producto y crea un objeto Producto.
-    public static Producto crearProducto(Scanner scanner) {
+    public static void mostrarMenu() {
+
+        System.out.println("\n========== MENÚ TIENDA ==========");
+        System.out.println("1. Agregar producto al inventario");
+        System.out.println("2. Buscar producto");
+        System.out.println("3. Mostrar inventario");
+        System.out.println("4. Agregar cliente a la cola");
+        System.out.println("5. Agregar producto al carrito");
+        System.out.println("6. Mostrar clientes en cola");
+        System.out.println("7. Atender cliente");
+        System.out.println("8. Salir");
+        System.out.println("=================================");
+    }
+
+    public static void agregarProducto(Scanner scanner, Tienda tienda) {
+
+        System.out.println("\n===== AGREGAR PRODUCTO =====");
+
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+
+        System.out.print("Precio: ");
+        double precio = scanner.nextDouble();
+        scanner.nextLine();
+
+        System.out.print("Categoría: ");
+        String categoria = scanner.nextLine();
+
+        System.out.print("Fecha de vencimiento: ");
+        String fechaVencimiento = scanner.nextLine();
+
+        System.out.print("Cantidad: ");
+        int cantidad = scanner.nextInt();
+        scanner.nextLine();
+
+        Producto producto = new Producto(
+                nombre,
+                precio,
+                categoria,
+                fechaVencimiento,
+                cantidad
+        );
+
+        tienda.agregarProducto(producto);
+
+        System.out.println("\nProducto agregado correctamente.\n");
+    }
+
+    public static void buscarProducto(Scanner scanner, Tienda tienda) {
+
+        System.out.println("\n===== BUSCAR PRODUCTO =====");
 
         System.out.print("Digite el nombre del producto: ");
         String nombre = scanner.nextLine();
 
-        System.out.print("Digite el precio: ");
-        double precio = scanner.nextDouble();
+        Producto producto = tienda.buscarProducto(nombre);
+
+        if (producto != null) {
+            System.out.println("\nProducto encontrado:");
+            System.out.println(producto);
+        }
+    }
+
+    public static void agregarCliente(Scanner scanner, Tienda tienda) {
+
+        System.out.println("\n===== AGREGAR CLIENTE =====");
+
+        System.out.print("Nombre del cliente: ");
+        String nombre = scanner.nextLine();
+
+        System.out.print("Prioridad del cliente: ");
+        int prioridad = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.print("Digite la categoria: ");
-        String categoria = scanner.nextLine();
+        Cliente cliente = new Cliente(nombre, prioridad);
 
-        System.out.print("Digite la fecha de vencimiento: ");
-        String fechaVencimiento = scanner.nextLine();
+        tienda.agregarCliente(cliente);
 
-        System.out.print("Digite la cantidad: ");
-        int cantidad = scanner.nextInt();
+        System.out.println("\nCliente agregado correctamente.\n");
+    }
+
+    public static void agregarProductoAlCarrito(
+            Scanner scanner,
+            Tienda tienda
+    ) {
+
+        System.out.println("\n===== AGREGAR PRODUCTO AL CARRITO =====");
+
+        Cliente cliente = tienda.getColaClientes().verFrente();
+
+        if (cliente == null) {
+            return;
+        }
+
+        System.out.println("Cliente seleccionado: " + cliente.getNombre());
+
+        System.out.print("Nombre del producto: ");
+        String nombreProducto = scanner.nextLine();
+
+        Producto productoInventario =
+                tienda.buscarProducto(nombreProducto);
+
+        if (productoInventario == null) {
+            return;
+        }
+
+        System.out.print("Cantidad que desea comprar: ");
+        int cantidadCompra = scanner.nextInt();
         scanner.nextLine();
 
-        // Retorna el producto creado con los datos ingresados
-        return new Producto(nombre, precio, categoria, fechaVencimiento, cantidad);
+        if (cantidadCompra <= 0) {
+            System.out.println("\nLa cantidad debe ser mayor que cero.\n");
+            return;
+        }
+
+        if (cantidadCompra > productoInventario.getCantidad()) {
+            System.out.println("\nNo hay suficiente cantidad en el inventario.");
+            System.out.println(
+                    "Cantidad disponible: "
+                            + productoInventario.getCantidad()
+            );
+            return;
+        }
+
+        Producto productoCarrito = new Producto(
+                productoInventario.getNombre(),
+                productoInventario.getPrecio(),
+                productoInventario.getCategoria(),
+                productoInventario.getFechaVencimiento(),
+                cantidadCompra
+        );
+
+        cliente.getCarrito().insertarFinal(productoCarrito);
+
+        productoInventario.setCantidad(
+                productoInventario.getCantidad() - cantidadCompra
+        );
+
+        System.out.println("\nProducto agregado al carrito correctamente.\n");
     }
 }

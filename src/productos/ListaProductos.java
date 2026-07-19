@@ -190,4 +190,52 @@ public class ListaProductos {
         // Mostrar el costo total del inventario
         System.out.println("Costo total acumulado: " + totalGeneral + "\n");
     }
+
+    // Calcula y retorna el costo total de todos los productos
+    public double calcularTotal() {
+
+        double totalGeneral = 0;
+        NodoProducto temp = primero;
+
+        while (temp != null) {
+
+            Producto producto = temp.getProducto();
+
+            double totalProducto = producto.getPrecio() * producto.getCantidad();
+
+            totalGeneral += totalProducto;
+
+            temp = temp.getSiguiente();
+        }
+
+    return totalGeneral;
+
+    }
+
+    // Imprime la factura de los productos del carrito
+    public  void imprimirFactura() {
+
+        if (estaVacia()) {
+            System.out.println("El carrito esta vacío.\n");
+            return;
+        }
+
+        NodoProducto temp = primero;
+
+        System.out.println("\n========== FACTURA ==========");
+
+        while (temp != null) {
+            Producto producto = temp.getProducto();
+            double subtotal = producto.getPrecio() * producto.getCantidad();
+
+            System.out.println("Producto: " + producto.getNombre());
+            System.out.println("Precio: " + producto.getPrecio());
+            System.out.println("Cantidad: " + producto.getCantidad());
+            System.out.println("Subtotal: " + subtotal + "\n");
+
+            temp = temp.getSiguiente();
+        }
+        System.out.println("Total de la compra: " + calcularTotal());
+        System.out.println("=============================\n");
+    }
 }
