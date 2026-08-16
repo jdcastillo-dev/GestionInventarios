@@ -1,10 +1,10 @@
 package tienda;
 
-import productos.ArbolProductos;
 import clientes.Cliente;
 import clientes.ColaClientes;
+import Grafo.Grafo;
+import productos.ArbolProductos;
 import productos.Producto;
-import grafo.Grafo;
 
 public class Tienda {
 
@@ -14,13 +14,16 @@ public class Tienda {
     private String ubicacion;
     private Grafo grafo;
 
-    // Metodos
     // Constructor
-    public Tienda(String ubicacion, Grafo grafo) {
+    public Tienda() {
         inventario = new ArbolProductos();
-        this.grafo = grafo;
+
+        ubicacion = "San Jose";
+
+        grafo = new Grafo();
+        grafo.cargarMapaInicial();
+
         colaClientes = new ColaClientes(grafo);
-        this.ubicacion = ubicacion;
     }
 
     // Getters
@@ -32,6 +35,10 @@ public class Tienda {
         return colaClientes;
     }
 
+    public Grafo getGrafo() {
+        return grafo;
+    }
+
     public String getUbicacion() {
         return ubicacion;
     }
@@ -39,6 +46,7 @@ public class Tienda {
     // Setter
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+        grafo.agregarVertice(ubicacion);
     }
 
     // Agrega un producto al inventario de la tienda
@@ -64,21 +72,44 @@ public class Tienda {
 
     // Agrega un cliente a la cola de atención
     public void agregarCliente(Cliente cliente) {
+
+        if (cliente == null) {
+            return;
+        }
+
         colaClientes.insertar(cliente);
     }
 
     // Atiende al siguiente cliente de la cola
     public void atenderCliente() {
 
-        Cliente cliente = colaClientes.atenderCliente();
+        Cliente cliente = colaClientes.verFrente();
 
         if (cliente == null) {
-            System.out.println("No hay clientes en la cola.\n");
             return;
         }
 
+        if (!grafo.hayCamino(
+                ubicacion,
+                cliente.getUbicacion()
+        )) {
+
+            System.out.println("\nNo se puede atender al cliente.");
+
+            System.out.println(
+                    "La ubicacion "
+                            + cliente.getUbicacion()
+                            + " esta desconectada de la tienda.\n"
+            );
+
+            return;
+        }
+
+        cliente = colaClientes.atenderCliente();
+
         System.out.println("\n========== FACTURA ==========");
         System.out.println("Cliente: " + cliente.getNombre());
+        System.out.println("Ubicacion: " + cliente.getUbicacion());
 
         cliente.getCarrito().imprimirFactura();
     }

@@ -1,6 +1,7 @@
 import clientes.Cliente;
 import productos.Producto;
 import tienda.Tienda;
+import grafo.Grafo;
 
 import java.util.Scanner;
 
@@ -9,7 +10,9 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Tienda tienda = new Tienda();
+
+        Grafo grafo = new Grafo();
+        Tienda tienda = new Tienda("Tienda", grafo);
 
         int opcion;
 
@@ -137,7 +140,14 @@ public class Main {
         int prioridad = scanner.nextInt();
         scanner.nextLine();
 
-        Cliente cliente = new Cliente(nombre, prioridad, ubicacion);
+        System.out.print("Ubicacion del cliente: ");
+        String ubicacion = scanner.nextLine();
+
+        Cliente cliente = new Cliente(
+                nombre,
+                prioridad,
+                ubicacion
+        );
 
         tienda.agregarCliente(cliente);
 
@@ -157,7 +167,9 @@ public class Main {
             return;
         }
 
-        System.out.println("Cliente seleccionado: " + cliente.getNombre());
+        System.out.println(
+                "Cliente seleccionado: " + cliente.getNombre()
+        );
 
         System.out.print("Nombre del producto: ");
         String nombreProducto = scanner.nextLine();
@@ -174,16 +186,25 @@ public class Main {
         scanner.nextLine();
 
         if (cantidadCompra <= 0) {
-            System.out.println("\nLa cantidad debe ser mayor que cero.\n");
+
+            System.out.println(
+                    "\nLa cantidad debe ser mayor que cero.\n"
+            );
+
             return;
         }
 
         if (cantidadCompra > productoInventario.getCantidad()) {
-            System.out.println("\nNo hay suficiente cantidad en el inventario.");
+
+            System.out.println(
+                    "\nNo hay suficiente cantidad en el inventario."
+            );
+
             System.out.println(
                     "Cantidad disponible: "
                             + productoInventario.getCantidad()
             );
+
             return;
         }
 
@@ -198,9 +219,12 @@ public class Main {
         cliente.getCarrito().insertarFinal(productoCarrito);
 
         productoInventario.setCantidad(
-                productoInventario.getCantidad() - cantidadCompra
+                productoInventario.getCantidad()
+                        - cantidadCompra
         );
 
-        System.out.println("\nProducto agregado al carrito correctamente.\n");
+        System.out.println(
+                "\nProducto agregado al carrito correctamente.\n"
+        );
     }
 }

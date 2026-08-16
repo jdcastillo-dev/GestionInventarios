@@ -34,7 +34,9 @@ public class Cliente {
         return carrito;
     }
 
-    public String getUbicacion() { return ubicacion; }
+    public String getUbicacion() {
+        return ubicacion;
+    }
 
     // Setters
     public void setNombre(String nombre) {
@@ -49,7 +51,9 @@ public class Cliente {
         this.carrito = carrito;
     }
 
-    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
 
     // toString()
     public String toString() {
