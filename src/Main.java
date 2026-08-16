@@ -1,6 +1,7 @@
 import clientes.Cliente;
 import productos.Producto;
 import tienda.Tienda;
+import productos.ListaProductos;
 
 import java.util.Scanner;
 
@@ -137,7 +138,12 @@ public class Main {
         int prioridad = scanner.nextInt();
         scanner.nextLine();
 
-        Cliente cliente = new Cliente(nombre, prioridad);
+        System.out.print("Ubicacion del cliente: ");
+        String ubicacion = scanner.nextLine();
+
+        ListaProductos carrito = new ListaProductos();
+
+        Cliente cliente = new Cliente(nombre, prioridad, carrito, ubicacion);
 
         tienda.agregarCliente(cliente);
 

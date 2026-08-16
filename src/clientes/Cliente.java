@@ -16,10 +16,9 @@ public class Cliente {
     public Cliente(String nombre, int prioridad, ListaProductos carrito, String ubicacion) {
         this.nombre = nombre;
         this.prioridad = prioridad;
-        carrito = new ListaProductos();
+        this.carrito = carrito;
         this.ubicacion = ubicacion;
     }
-
 
     // Getters
     public String getNombre() {
