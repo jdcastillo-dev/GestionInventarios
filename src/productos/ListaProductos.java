@@ -208,12 +208,12 @@ public class ListaProductos {
             temp = temp.getSiguiente();
         }
 
-    return totalGeneral;
+        return totalGeneral;
 
     }
 
     // Imprime la factura de los productos del carrito
-    public  void imprimirFactura() {
+    public void imprimirFactura() {
 
         if (estaVacia()) {
             System.out.println("El carrito esta vacío.\n");
@@ -222,7 +222,7 @@ public class ListaProductos {
 
         NodoProducto temp = primero;
 
-        System.out.println("\n========== FACTURA ==========");
+        System.out.println("\n========== Carrito ==========");
 
         while (temp != null) {
             Producto producto = temp.getProducto();

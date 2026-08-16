@@ -1,6 +1,6 @@
 package clientes;
 
-import grafo.Grafo;
+import Grafo.Grafo;
 
 public class ColaClientes {
 
@@ -22,6 +22,11 @@ public class ColaClientes {
 
     // Inserta un cliente respetando la prioridad y el orden de llegada en caso de empate
     public void insertar(Cliente cliente) {
+
+        // Verifica que el cliente sea valido
+        if (cliente == null) {
+            return;
+        }
 
         // Agrega automaticamente la ubicacion del cliente al grafo
         grafo.agregarVertice(cliente.getUbicacion());
@@ -82,7 +87,7 @@ public class ColaClientes {
 
         NodoColaCliente temp = frente;
 
-        // Recorrer cada cliente
+        // Recorre cada cliente
         while (temp != null) {
             System.out.println(temp);
             temp = temp.getSiguiente();

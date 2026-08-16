@@ -3,6 +3,8 @@ package tienda;
 import clientes.Cliente;
 import clientes.ColaClientes;
 import Grafo.Grafo;
+import Grafo.ResultadoCamino;
+import Grafo.Vertice;
 import productos.ArbolProductos;
 import productos.Producto;
 
@@ -14,6 +16,7 @@ public class Tienda {
     private String ubicacion;
     private Grafo grafo;
 
+    // Metodos
     // Constructor
     public Tienda() {
         inventario = new ArbolProductos();
@@ -89,10 +92,10 @@ public class Tienda {
             return;
         }
 
-        if (!grafo.hayCamino(
-                ubicacion,
-                cliente.getUbicacion()
-        )) {
+        ResultadoCamino resultado = grafo.dijkstra(ubicacion, cliente.getUbicacion());
+
+        // Si no existe camino, el cliente no se elimina de la cola
+        if (!resultado.isExisteCamino()) {
 
             System.out.println("\nNo se puede atender al cliente.");
 
@@ -105,6 +108,7 @@ public class Tienda {
             return;
         }
 
+        // Solo se remueve de la cola cuando existe un camino
         cliente = colaClientes.atenderCliente();
 
         System.out.println("\n========== FACTURA ==========");
@@ -112,5 +116,28 @@ public class Tienda {
         System.out.println("Ubicacion: " + cliente.getUbicacion());
 
         cliente.getCarrito().imprimirFactura();
+
+        System.out.println("\n===== RUTA DE ENTREGA =====");
+
+        System.out.print("Camino mas corto: ");
+
+        for (int i = 0; i < resultado.getCamino().size(); i++) {
+
+            Vertice vertice = resultado.getCamino().get(i);
+
+            System.out.print(vertice.getNombre());
+
+            if (i < resultado.getCamino().size() - 1) {
+                System.out.print(" -> ");
+            }
+        }
+
+        System.out.println(
+                "\nDistancia total: "
+                        + resultado.getDistanciaTotal()
+                        + " km"
+        );
+
+        System.out.println();
     }
 }

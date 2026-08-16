@@ -7,12 +7,16 @@ import java.util.Queue;
 
 public class Grafo {
 
+    // Atributos
     private ArrayList<Vertice> vertices;
 
+    // Metodos
+    // Constructor
     public Grafo() {
         vertices = new ArrayList<>();
     }
 
+    // Agrega un nuevo vertice al grafo
     public boolean agregarVertice(String nombre) {
         if (nombre == null || nombre.trim().isEmpty() || existeVertice(nombre)) {
             return false;
@@ -22,6 +26,7 @@ public class Grafo {
         return true;
     }
 
+    // Agrega un vertice usando un objeto Vertice
     public boolean agregarVertice(Vertice vertice) {
         if (vertice == null) {
             return false;
@@ -29,6 +34,7 @@ public class Grafo {
         return agregarVertice(vertice.getNombre());
     }
 
+    // Agrega una arista no dirigida entre dos vertices
     public boolean agregarArista(String nombreOrigen, String nombreDestino, double peso) {
         Vertice origen = buscarVertice(nombreOrigen);
         Vertice destino = buscarVertice(nombreDestino);
@@ -46,6 +52,7 @@ public class Grafo {
         return true;
     }
 
+    // Agrega una arista usando objetos Vertice
     public boolean agregarArista(Vertice origen, Vertice destino, double peso) {
         if (origen == null || destino == null) {
             return false;
@@ -53,6 +60,7 @@ public class Grafo {
         return agregarArista(origen.getNombre(), destino.getNombre(), peso);
     }
 
+    // Busca un vertice por su nombre
     public Vertice buscarVertice(String nombre) {
         if (nombre == null) {
             return null;
@@ -66,14 +74,17 @@ public class Grafo {
         return null;
     }
 
+    // Verifica si un vertice existe en el grafo
     public boolean existeVertice(String nombre) {
         return buscarVertice(nombre) != null;
     }
 
+    // Getter
     public ArrayList<Vertice> getVertices() {
         return vertices;
     }
 
+    // Verifica si existe un camino entre dos ubicaciones
     public boolean hayCamino(String nombreOrigen, String nombreDestino) {
         Vertice origen = buscarVertice(nombreOrigen);
         Vertice destino = buscarVertice(nombreDestino);
@@ -107,6 +118,7 @@ public class Grafo {
         return false;
     }
 
+    // Muestra las ubicaciones y conexiones del grafo
     public void mostrarMapa() {
         System.out.println("\n========== MAPA DE UBICACIONES ==========");
 
@@ -129,6 +141,7 @@ public class Grafo {
         System.out.println();
     }
 
+    // Carga las ubicaciones y conexiones iniciales del mapa
     public void cargarMapaInicial() {
         agregarVertice("San Jose");
         agregarVertice("Escazu");
@@ -146,6 +159,7 @@ public class Grafo {
         agregarArista("Heredia", "Cartago", 32);
     }
 
+    // Calcula el camino mas corto usando Dijkstra
     public ResultadoCamino dijkstra(String nombreOrigen, String nombreDestino) {
         Vertice origen = buscarVertice(nombreOrigen);
         Vertice destino = buscarVertice(nombreDestino);

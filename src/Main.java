@@ -1,7 +1,6 @@
 import clientes.Cliente;
 import productos.Producto;
 import tienda.Tienda;
-import grafo.Grafo;
 
 import java.util.Scanner;
 
@@ -11,8 +10,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        Grafo grafo = new Grafo();
-        Tienda tienda = new Tienda("Tienda", grafo);
+        Tienda tienda = new Tienda();
 
         int opcion;
 
@@ -54,6 +52,18 @@ public class Main {
                     break;
 
                 case 8:
+                    agregarVertice(scanner, tienda);
+                    break;
+
+                case 9:
+                    agregarArista(scanner, tienda);
+                    break;
+
+                case 10:
+                    tienda.getGrafo().mostrarMapa();
+                    break;
+
+                case 11:
                     System.out.println("\nSaliendo del sistema...");
                     break;
 
@@ -61,11 +71,12 @@ public class Main {
                     System.out.println("\nOpción inválida.\n");
             }
 
-        } while (opcion != 8);
+        } while (opcion != 11);
 
         scanner.close();
     }
 
+    // Muestra las opciones principales del sistema
     public static void mostrarMenu() {
 
         System.out.println("\n========== MENÚ TIENDA ==========");
@@ -76,10 +87,14 @@ public class Main {
         System.out.println("5. Agregar producto al carrito");
         System.out.println("6. Mostrar clientes en cola");
         System.out.println("7. Atender cliente");
-        System.out.println("8. Salir");
+        System.out.println("8. Agregar ubicacion al mapa");
+        System.out.println("9. Agregar conexion entre ubicaciones");
+        System.out.println("10. Mostrar mapa");
+        System.out.println("11. Salir");
         System.out.println("=================================");
     }
 
+    // Agrega un producto al inventario
     public static void agregarProducto(Scanner scanner, Tienda tienda) {
 
         System.out.println("\n===== AGREGAR PRODUCTO =====");
@@ -114,6 +129,7 @@ public class Main {
         System.out.println("\nProducto agregado correctamente.\n");
     }
 
+    // Busca un producto por su nombre
     public static void buscarProducto(Scanner scanner, Tienda tienda) {
 
         System.out.println("\n===== BUSCAR PRODUCTO =====");
@@ -129,6 +145,7 @@ public class Main {
         }
     }
 
+    // Agrega un cliente a la cola
     public static void agregarCliente(Scanner scanner, Tienda tienda) {
 
         System.out.println("\n===== AGREGAR CLIENTE =====");
@@ -154,6 +171,7 @@ public class Main {
         System.out.println("\nCliente agregado correctamente.\n");
     }
 
+    // Agrega un producto al carrito del cliente
     public static void agregarProductoAlCarrito(
             Scanner scanner,
             Tienda tienda
@@ -226,5 +244,66 @@ public class Main {
         System.out.println(
                 "\nProducto agregado al carrito correctamente.\n"
         );
+    }
+
+    // Agrega una nueva ubicacion al grafo
+    public static void agregarVertice(
+            Scanner scanner,
+            Tienda tienda
+    ) {
+
+        System.out.println("\n===== AGREGAR UBICACION =====");
+
+        System.out.print("Nombre de la ubicacion: ");
+        String ubicacion = scanner.nextLine();
+
+        boolean agregado =
+                tienda.getGrafo().agregarVertice(ubicacion);
+
+        if (agregado) {
+            System.out.println(
+                    "\nUbicacion agregada correctamente.\n"
+            );
+        } else {
+            System.out.println(
+                    "\nNo se pudo agregar la ubicacion.\n"
+            );
+        }
+    }
+
+    // Agrega una conexion entre dos ubicaciones
+    public static void agregarArista(
+            Scanner scanner,
+            Tienda tienda
+    ) {
+
+        System.out.println("\n===== AGREGAR CONEXION =====");
+
+        System.out.print("Ubicacion de origen: ");
+        String origen = scanner.nextLine();
+
+        System.out.print("Ubicacion de destino: ");
+        String destino = scanner.nextLine();
+
+        System.out.print("Distancia en km: ");
+        double distancia = scanner.nextDouble();
+        scanner.nextLine();
+
+        boolean agregada =
+                tienda.getGrafo().agregarArista(
+                        origen,
+                        destino,
+                        distancia
+                );
+
+        if (agregada) {
+            System.out.println(
+                    "\nConexion agregada correctamente.\n"
+            );
+        } else {
+            System.out.println(
+                    "\nNo se pudo agregar la conexion.\n"
+            );
+        }
     }
 }
