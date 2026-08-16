@@ -1,6 +1,7 @@
 package Grafo;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -143,5 +144,74 @@ public class Grafo {
         agregarArista("Santa Ana", "Alajuela", 18);
         agregarArista("Heredia", "Alajuela", 14);
         agregarArista("Heredia", "Cartago", 32);
+    }
+
+    public ResultadoCamino dijkstra(String nombreOrigen, String nombreDestino) {
+        Vertice origen = buscarVertice(nombreOrigen);
+        Vertice destino = buscarVertice(nombreDestino);
+
+        if (origen == null || destino == null) {
+            return new ResultadoCamino(new ArrayList<>(), 0, false);
+        }
+
+        HashMap<Vertice, Double> distancias = new HashMap<>();
+        HashMap<Vertice, Vertice> anteriores = new HashMap<>();
+        HashSet<Vertice> visitados = new HashSet<>();
+
+        for (Vertice vertice : vertices) {
+            distancias.put(vertice, Double.POSITIVE_INFINITY);
+        }
+
+        distancias.put(origen, 0.0);
+
+        while (visitados.size() < vertices.size()) {
+            Vertice actual = null;
+            double menorDistancia = Double.POSITIVE_INFINITY;
+
+            for (Vertice vertice : vertices) {
+                if (!visitados.contains(vertice)
+                        && distancias.get(vertice) < menorDistancia) {
+                    menorDistancia = distancias.get(vertice);
+                    actual = vertice;
+                }
+            }
+
+            if (actual == null) {
+                break;
+            }
+
+            if (actual == destino) {
+                break;
+            }
+
+            visitados.add(actual);
+
+            for (Arista arista : actual.getAdyacentes()) {
+                Vertice vecino = arista.getDestino();
+
+                if (!visitados.contains(vecino)) {
+                    double nuevaDistancia = distancias.get(actual) + arista.getPeso();
+
+                    if (nuevaDistancia < distancias.get(vecino)) {
+                        distancias.put(vecino, nuevaDistancia);
+                        anteriores.put(vecino, actual);
+                    }
+                }
+            }
+        }
+
+        if (Double.isInfinite(distancias.get(destino))) {
+            return new ResultadoCamino(new ArrayList<>(), 0, false);
+        }
+
+        ArrayList<Vertice> camino = new ArrayList<>();
+        Vertice actual = destino;
+
+        while (actual != null) {
+            camino.add(0, actual);
+            actual = anteriores.get(actual);
+        }
+
+        return new ResultadoCamino(camino, distancias.get(destino), true);
     }
 }
