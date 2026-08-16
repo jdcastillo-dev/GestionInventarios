@@ -8,13 +8,15 @@ public class Cliente {
     private String nombre;
     private int prioridad;
     private ListaProductos carrito;
+    private String ubicacion;
 
     // Metodos
     // Constructor
-    public Cliente(String nombre, int prioridad) {
+    public Cliente(String nombre, int prioridad, String ubicacion) {
 
         this.nombre = nombre;
         this.prioridad = prioridad;
+        this.ubicacion = ubicacion;
 
         carrito = new ListaProductos();
     }
@@ -32,6 +34,8 @@ public class Cliente {
         return carrito;
     }
 
+    public String getUbicacion() { return ubicacion; }
+
     // Setters
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -45,9 +49,12 @@ public class Cliente {
         this.carrito = carrito;
     }
 
+    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+
     // toString()
     public String toString() {
         return "Nombre: " + nombre +
-                "\nPrioridad: " + prioridad + "\n";
+                "\nPrioridad: " + prioridad +
+                "\nUbicacion: " + ubicacion + "\n";
     }
 }

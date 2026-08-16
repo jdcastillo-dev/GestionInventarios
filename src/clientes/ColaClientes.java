@@ -1,14 +1,18 @@
 package clientes;
 
+import grafo.Grafo;
+
 public class ColaClientes {
 
     // Atributos
     private NodoColaCliente frente;
+    private Grafo grafo;
 
     // Metodos
     // Constructor
-    public ColaClientes() {
+    public ColaClientes(Grafo grafo) {
         frente = null;
+        this.grafo = grafo;
     }
 
     // Operaciones
@@ -16,8 +20,11 @@ public class ColaClientes {
         return frente == null;
     }
 
-    // Inserta un cliente respetando la prioridad, en caso de empate, queda mas cerca del que esta en frente ya que ya estaba en la cola
+    // Inserta un cliente respetando la prioridad y el orden de llegada en caso de empate
     public void insertar(Cliente cliente) {
+
+        // Agrega automaticamente la ubicacion del cliente al grafo
+        grafo.agregarVertice(cliente.getUbicacion());
 
         NodoColaCliente nodo = new NodoColaCliente(cliente);
 
@@ -69,7 +76,7 @@ public class ColaClientes {
     public void mostrar() {
 
         if (estaVacia()) {
-            System.out.println("La cola de clients está vacía.\n");
+            System.out.println("La cola de clientes está vacía.\n");
             return;
         }
 

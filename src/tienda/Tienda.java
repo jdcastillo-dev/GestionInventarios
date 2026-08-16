@@ -4,18 +4,23 @@ import productos.ArbolProductos;
 import clientes.Cliente;
 import clientes.ColaClientes;
 import productos.Producto;
+import grafo.Grafo;
 
 public class Tienda {
 
     // Atributos
     private ArbolProductos inventario;
     private ColaClientes colaClientes;
+    private String ubicacion;
+    private Grafo grafo;
 
     // Metodos
     // Constructor
-    public Tienda() {
+    public Tienda(String ubicacion, Grafo grafo) {
         inventario = new ArbolProductos();
-        colaClientes = new ColaClientes();
+        this.grafo = grafo;
+        colaClientes = new ColaClientes(grafo);
+        this.ubicacion = ubicacion;
     }
 
     // Getters
@@ -25,6 +30,15 @@ public class Tienda {
 
     public ColaClientes getColaClientes() {
         return colaClientes;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    // Setter
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
     }
 
     // Agrega un producto al inventario de la tienda

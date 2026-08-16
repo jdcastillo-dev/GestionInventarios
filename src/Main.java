@@ -137,7 +137,7 @@ public class Main {
         int prioridad = scanner.nextInt();
         scanner.nextLine();
 
-        Cliente cliente = new Cliente(nombre, prioridad);
+        Cliente cliente = new Cliente(nombre, prioridad, ubicacion);
 
         tienda.agregarCliente(cliente);
 
